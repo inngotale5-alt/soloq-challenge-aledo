@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SOLOQ CHALLENGE</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <main class="container">
+    <h1>SOLOQ CHALLENGE</h1>
+
+    <div class="controls">
+      <button id="refreshBtn">Refrescar</button>
+      <span class="last-update">Última actualización: <strong id="lastUpdate">—</strong></span>
+    </div>
+
+    <table id="ranking">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Jugador</th>
+          <th>Rango</th>
+          <th>LP</th>
+          <th>Wins / Losses</th>
+          <th>Tipo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Filas generadas dinámicamente -->
+      </tbody>
+    </table>
+
+    <p class="note">Datos proporcionados por la API oficial de Riot Games (mediante backend).</p>
+  </main>
+
+  <script src="/script.js"></script>
+</body>
+</html>
