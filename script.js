@@ -1,18 +1,12 @@
-// --- CONFIG: cambia aquí tus invocadores ---
-const SUMMONERS = [
-  "Jesucrítico#AMEN"
-  // añade más como "OtroInvocador#TAG", "OtraCuenta"
-];
-// --- FIN CONFIG ---
-
-const API_ENDPOINT = "/api/player"; // serverless backend
+// Lista de invocadores
+const SUMMONERS = ["Jesucrítico#AMEN"];
+const API_ENDPOINT = "/api/player";
 
 const tableBody = document.querySelector("#ranking tbody");
 const lastUpdateEl = document.getElementById("lastUpdate");
 const refreshBtn = document.getElementById("refreshBtn");
 
-async function fetchPlayer(nameRaw){
-  // si viene con '#', tomar la parte antes del '#'
+async function fetchPlayer(nameRaw) {
   const name = nameRaw.split("#")[0].trim();
   try {
     const res = await fetch(`${API_ENDPOINT}?name=${encodeURIComponent(name)}&region=EUW`);
@@ -26,7 +20,7 @@ async function fetchPlayer(nameRaw){
   }
 }
 
-async function actualizarTabla(){
+async function actualizarTabla() {
   tableBody.innerHTML = "";
   lastUpdateEl.textContent = "Actualizando...";
   refreshBtn.disabled = true;
@@ -36,23 +30,22 @@ async function actualizarTabla(){
 
   datos.forEach((d, idx) => {
     const tr = document.createElement("tr");
-    if (d.error){
+    if (d.error) {
       tr.innerHTML = `
-        <td>${idx+1}</td>
+        <td>${idx + 1}</td>
         <td>${d.inputName || "Desconocido"}</td>
         <td colspan="4" style="color:#ff8b8b">Error: ${d.error}</td>
       `;
     } else {
-      // d: { name, summonerLevel, profileIconId, ranked (array), puuid, id }
       const soloq = Array.isArray(d.ranked) && d.ranked.find(r => r.queueType === "RANKED_SOLO_5x5");
       const rankText = soloq ? `${soloq.tier} ${soloq.rank}` : "Unranked";
       const lp = soloq ? soloq.leaguePoints : "-";
       const wins = soloq ? soloq.wins : "-";
       const losses = soloq ? soloq.losses : "-";
-      const type = soloq ? soloq.queueType.replace("RANKED_","").replace("_"," ") : "-";
+      const type = soloq ? soloq.queueType.replace("RANKED_", "").replace("_", " ") : "-";
 
       tr.innerHTML = `
-        <td>${idx+1}</td>
+        <td>${idx + 1}</td>
         <td><a class="opgg" href="https://www.op.gg/summoners/euw/${encodeURIComponent(d.name)}" target="_blank" rel="noopener noreferrer">${d.name}</a></td>
         <td>${rankText}</td>
         <td>${lp}</td>
@@ -69,6 +62,4 @@ async function actualizarTabla(){
 }
 
 refreshBtn.addEventListener("click", actualizarTabla);
-
-// inicial
 actualizarTabla();
